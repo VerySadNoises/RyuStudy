@@ -1,3 +1,4 @@
+import {FOCUS_GIFS} from './timer.js';
 import {STORES} from './db.js';
 import {THEMES,GOAL_MAX,nowISO} from './model.js';
 
@@ -27,6 +28,7 @@ const timer = v => object(v) && id(v.id) && optional(id,v.assignmentId) && optio
   && (v.status === 'paused' ? time(v.pausedAt) : true)
   && (v.status === 'review' ? time(v.endedAt) : v.endedAt === null)
   && (v.kind === 'work' ? id(v.categoryId) : v.categoryId === null && v.assignmentId === null)
+  && (v.focusGif===undefined || v.kind==='work' && FOCUS_GIFS.includes(v.focusGif))
   && draft(v.draft);
 const schemas = {
   settings: v => v.id==='profile' && str(v.username,60) && oneOf(THEMES,v.theme) && oneOf(['off','on','auto'],v.night)

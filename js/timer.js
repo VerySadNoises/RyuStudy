@@ -1,9 +1,13 @@
 import {categoryColor,localDate,nowISO,uid,GOAL_MAX} from './model.js';
 
+export const FOCUS_GIFS=[6566,6567,6575];
+export const focusComplete=timer=>timer?.kind==='work' && timer.status==='review' && timer.elapsed>=timer.total;
+
 export function newTimer({assignmentId,categoryId,kind,minutes},at = Date.now()) {
   const total = minutes*60000;
   return {
     id:uid(), assignmentId, categoryId, kind, total, elapsed:0, status:'running',
+    ...(kind==='work'?{focusGif:FOCUS_GIFS[Math.floor(Math.random()*FOCUS_GIFS.length)]}:{}),
     startedAt:new Date(at).toISOString(), anchor:new Date(at).toISOString(),
     pausedAt:null,resumedAt:null,endedAt:null,date:localDate(new Date(at)),
     draft:{words:0,note:'',completed:[]}

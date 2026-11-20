@@ -1,10 +1,12 @@
 /* Bump the cache suffix for every release that changes the offline shell. */
 const PREFIX='chapitre-shell-';
 importScripts('./font-assets.js');
-const CACHE=PREFIX+'v4-'+FONT_VERSION;
+const CACHE=PREFIX+'v5-'+FONT_VERSION;
 const SCOPE=self.registration.scope;
 const FILES=[
   './','./index.html','./styles.css','./fonts.css','./font-assets.js',...FONT_ASSETS,'./manifest.webmanifest','./assets/cat.svg',
+  './assets/IMG_6566.GIF','./assets/IMG_6567.GIF','./assets/IMG_6575.GIF','./assets/IMG_6569.GIF',
+  './assets/IMG_6690.PNG','./assets/sound/EndingBell.mp3','./js/media.js',
   './assets/apple-touch-icon.png','./assets/icon-192.png','./assets/icon-512.png','./assets/maskable-512.png',
 
   './js/install-android.js','./js/app.js','./js/model.js','./js/db.js','./js/ui.js','./js/assignments.js','./js/pomodoro.js',

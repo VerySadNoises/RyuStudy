@@ -1,6 +1,7 @@
 import * as db from './db.js';
 import {fullDate} from './model.js';
-import {changeTimer,remaining} from './timer.js';
+import {changeTimer,remaining,focusComplete} from './timer.js';
+import {announceCompletion} from './media.js';
 import {h,button,link,cat,icon,group,field,input,muted} from './ui.js';
 import {home,assignments,assignment,editAssignment} from './assignments.js';
 import {pomodoro,reviewTimer,history} from './pomodoro.js';
@@ -182,6 +183,7 @@ function tick(){
   const display=document.getElementById('timer-display');
   if(display) display.updateClock(timer);
   if(timer.status==='review'){
+    if(focusComplete(timer)) announceCompletion(timer);
     if(ctx.route[0]==='pomodoro' && !document.querySelector('dialog[open]')) reviewTimer(ctx);
     return;
   }

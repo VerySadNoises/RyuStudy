@@ -33,7 +33,7 @@ export function home(ctx){
     h('section',{class:'hero'},h('div',{class:'hero-copy'},h('div',{class:'eyebrow'},icon('leaf'),' YOUR STUDY SPACE'),
       h('h1',{},'Hi, '+ctx.profile.username+'!'),h('span',{class:'mobile-date'},icon('calendar'),fullDate()),h('p',{},'A little progress goes a long way. What are we working on today?'),
       link('Start Working','pomodoro','primary','play')),
-      h('div',{class:'hero-art'},cat(),h('span',{class:'art-caption'},'THE STUDY BUDDY'))),
+      h('div',{class:'hero-art'},h('img',{class:'cat',src:'./assets/IMG_6690.PNG',alt:'',width:1668,height:1668}),h('span',{class:'art-caption'},'THE STUDY BUDDY'))),
     h('div',{class:'summary'},valueGroup('Active assignments',rows.length),valueGroup('Words today',number(sum(today,'words'))),
       valueGroup('Focus this week',Math.floor(sum(thisWeek,'ms')/60000)+' min')),
     remind && h('aside',{class:'banner'},h('span',{},'It’s been a week. Save a copy of your workspace.'),group(

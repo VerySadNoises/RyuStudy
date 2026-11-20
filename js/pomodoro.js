@@ -1,8 +1,9 @@
 import {blankGoal,clock,localDate,weekStart,number,duration,dateLabel,sum,wordProgress,integer,GOAL_MAX} from './model.js';
-import {newTimer,changeTimer,remaining,logSession} from './timer.js';
+import {newTimer,changeTimer,remaining,logSession,focusComplete} from './timer.js';
+import {prepareBell,playBell,pomodoroArt} from './media.js';
 import {goalEditor,goalList} from './assignments.js';
 import {bars,categoryBars,calendar} from './visuals.js';
-import {h,button,link,panel,group,muted,tag,subheading,heading,field,input,select,cat,progressBar,checkbox,openDialog,valueGroup,icon} from './ui.js';
+import {h,button,link,panel,group,muted,tag,subheading,heading,field,input,select,progressBar,checkbox,openDialog,valueGroup,icon} from './ui.js';
 
 const setup={assignmentId:'',categoryId:'',minutes:null};
 const options=[15,25,45,60];
@@ -50,6 +51,7 @@ export function pomodoro(ctx){
     if(isWork){
       if(!minutes.reportValidity()) return;
       value=integer(minutes.value,1,240);
+      prepareBell();
     }
     await ctx.action(tx=>{
       if(tx.profile.timer) throw new Error('A timer is already active.');
@@ -69,14 +71,14 @@ export function pomodoro(ctx){
     h('div',{class:'timer-layout'},
       h('section',{class:'panel timer-panel'},
         h('span',{class:'eyebrow'},timer?timer.kind==='work'?'FOCUS SESSION':'BREAK':'FOCUS TIMER'),
-        cat(timer?.status==='running' && timer.kind==='work'?'working':timer?'resting':'idle'),
+        pomodoroArt(timer,focusComplete(timer)),
         display,
         h('p',{class:'timer-state'},timer?.status==='paused'?'Paused':timer?.status==='review'?'Ready for your review':timer?.kind==='work'?'In focus':timer?'On a break':'Ready when you are'),
         !timer && group(durationButtons),
         !timer && field('Custom minutes',minutes),
         group(!timer && button('Start',()=>start('work'),'primary','play'),
           timer?.status==='running' && button('Pause',()=>transition(ctx,timer,'pause'),'secondary','pause'),
-          timer?.status==='paused' && button('Resume',()=>transition(ctx,timer,'resume'),'primary','play'),
+          timer?.status==='paused' && button('Resume',()=>{prepareBell();return transition(ctx,timer,'resume');},'primary','play'),
           timer && timer.status!=='review' && button('Stop',()=>transition(ctx,timer,'stop'),'danger'),
           timer?.status==='review' && button('Review session',()=>reviewTimer(ctx,true),'primary','check'))),
       h('div',{class:'stack'},
@@ -139,7 +141,11 @@ export function reviewTimer(ctx,force=false){
       finally{save.disabled=false;discard.disabled=false;}
     },'primary','check');
     save.disabled=timer.elapsed<1000;
-    return h('div',{class:'stack'},tag(duration(timer.elapsed)+' of focus'),muted('Would you like to save this session?'),
+    return h('div',{class:'stack'},focusComplete(timer) && h('div',{class:'celebration stack'},pomodoroArt(timer,true),
+      button('Play bell',async()=>{
+        prepareBell();
+        try{await playBell();}catch{showError('The bell could not be played.');}
+      },'secondary')),tag(duration(timer.elapsed)+' of focus'),muted('Would you like to save this session?'),
       field('New words written during this session',words),
       muted('These words are added to the assignment total once. If you already adjusted the total, enter 0.'),
       boxes.length>0 && h('fieldset',{},h('legend',{},'Goals accomplished'),boxes.map(([item,box])=>h('label',{class:'check-row'},box,item.title))),
