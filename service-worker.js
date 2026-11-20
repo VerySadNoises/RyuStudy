@@ -1,7 +1,7 @@
 /* Bump the cache suffix for every release that changes the offline shell. */
 const PREFIX='chapitre-shell-';
 importScripts('./font-assets.js');
-const CACHE=PREFIX+'v2-'+FONT_VERSION;
+const CACHE=PREFIX+'v3-'+FONT_VERSION;
 const SCOPE=self.registration.scope;
 const FILES=[
   './','./index.html','./styles.css','./fonts.css','./font-assets.js',...FONT_ASSETS,'./manifest.webmanifest','./assets/cat.svg',

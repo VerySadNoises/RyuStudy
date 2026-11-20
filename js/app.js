@@ -103,18 +103,49 @@ function activeNav(route){
     h('a',{class:'nav-link '+(id==='history'?'desktop-only':''),href:'#'+id,'aria-current':key===id?'page':null},icon(symbol),h('span',{},label))));
 }
 function welcome(){
-  const name=input({id:'welcome-name',required:true,maxlength:60,autocomplete:'given-name',placeholder:'Your first name or nickname'});
-  const form=h('form',{class:'stack',onsubmit:async e=>{
-    e.preventDefault();
+  const name=input({id:'welcome-name',required:true,maxlength:60,autocomplete:'given-name',
+    placeholder:'Your first name or nickname','aria-describedby':'welcome-error','enterkeyhint':'go'});
+  const error=h('p',{id:'welcome-error',class:'form-error',role:'alert',hidden:true});
+  const caption=h('span',{},'Let’s get started');
+  const start=h('button',{type:'submit',class:'button primary',style:'touch-action:manipulation',onclick:event=>{
+    event.preventDefault();
+    void save();
+  }},icon('arrow'),caption);
+  const form=h('form',{class:'stack',novalidate:true,onsubmit:event=>{
+    event.preventDefault();
+    void save();
+  }},field('What’s your name?',name),start,error);
+
+  function showError(message){
+    error.textContent=message;
+    error.hidden=false;
+  }
+  async function save(){
+    if(start.disabled) return;
     const value=name.value.trim();
-    if(!value) { name.setCustomValidity('Enter a name.'); name.reportValidity(); return; }
-    const submit=form.querySelector('button');
-    submit.disabled=true;
-    try { await ctx.write(tx=>{tx.profile.username=value;}); ctx.go('home'); }
-    catch {}
-    finally { submit.disabled=false; }
-  }},field('What’s your name?',name),h('button',{type:'submit',class:'button primary'},'Let’s get started',icon('arrow')));
-  name.addEventListener('input',()=>name.setCustomValidity(''));
+    if(!value || value.length>60){
+      name.setAttribute('aria-invalid','true');
+      showError('Enter a first name or nickname (1–60 characters).');
+      name.focus();
+      return;
+    }
+    start.disabled=true;
+    caption.textContent='Saving…';
+    error.hidden=true;
+    try {
+      await ctx.write(tx=>{ if(!tx.profile.username) tx.profile.username=value; },{renderPage:false,report:false});
+      ctx.go('home');
+    }catch(saveError){
+      showError('Could not save your name. '+saveError.message);
+    }finally{
+      start.disabled=false;
+      caption.textContent='Let’s get started';
+    }
+  }
+  name.addEventListener('input',()=>{
+    name.removeAttribute('aria-invalid');
+    error.hidden=true;
+  });
   return h('section',{class:'welcome panel'},h('div',{},h('span',{class:'eyebrow'},'YOUR PERSONAL STUDY STUDIO'),
     h('h1',{},'Welcome!'),muted('A cosy place to plan your assignments, write, and find your focus.'),form,
     button('Restore a backup',()=>importBackup(ctx),'quiet')),h('div',{class:'welcome-art'},cat()));
