@@ -14,7 +14,7 @@ FAMILIES = {
 
 def fetch(directory, filename):
     request = Request(SOURCE + directory + "/" + quote(filename),
-                      headers={"User-Agent": "Chapitre-font-setup/1"})
+                      headers={"User-Agent": "Ryu Study-font-setup/1"})
     with urlopen(request, timeout=30) as response:
         return response.read(4 * 1024 * 1024 + 1)
 

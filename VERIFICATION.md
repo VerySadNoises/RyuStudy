@@ -4,7 +4,7 @@ Utilisez un iPhone de test, l’URL HTTPS du projet et une sauvegarde de vos év
 
 | Parcours | Manipulation | Résultat attendu |
 | --- | --- | --- |
-| Installation autonome | Dans Safari, ajoutez Chapitre à l’écran d’accueil, activez l’option app web si disponible, ouvrez depuis l’icône | L’écran d’accueil s’ouvre sans barre d’adresse et respecte l’encoche et l’indicateur d’accueil |
+| Installation autonome | Dans Safari, ajoutez Ryu Study à l’écran d’accueil, activez l’option app web si disponible, ouvrez depuis l’icône | L’écran d’accueil s’ouvre sans barre d’adresse et respecte l’encoche et l’indicateur d’accueil |
 | Premier lancement | Vérifiez **Welcome!**, entrez `Camille`, validez | Home affiche **Hi, Camille!** |
 | Profil et réouverture | Fermez complètement l’app, relancez depuis l’icône, puis renommez le profil dans Settings et relancez | Le nom initial puis le nom modifié persistent, l’accueil de bienvenue ne revient pas |
 | Création | Créez `History Essay`, matière `History`, échéance demain, 1 000 mots, obligation `Bibliography` | Le détail s’ouvre. Home affiche l’échéance, le délai et 0 % |
@@ -29,7 +29,7 @@ Utilisez un iPhone de test, l’URL HTTPS du projet et une sauvegarde de vos év
 | Import et confirmation | Modifiez le nom. Lancez un import du fichier exporté. Lisez le résumé, annulez, puis relancez et confirmez | Le nom modifié persiste après annulation. La confirmation charge le profil, les sessions et les autres données du fichier |
 | Import invalide | Sur une copie du fichier, remplacez `"version": 1` par `"version": 99` et importez | Message d’erreur, bouton de poursuite désactivé, données locales conservées |
 | Hors ligne | Attendez **Offline cache ready**, fermez l’app, activez le mode avion et coupez le Wi-Fi. Rouvrez depuis l’icône | L’interface, le chat, les devoirs, l’historique et le minuteur chargent. Créez une tâche et rouvrez l’app en restant hors ligne pour vérifier sa sauvegarde |
-| Redémarrage de l’iPhone | Après une sauvegarde externe, redémarrez l’iPhone puis ouvrez Chapitre depuis l’icône | Les données locales sont présentes si iOS a conservé le stockage de Chapitre |
+| Redémarrage de l’iPhone | Après une sauvegarde externe, redémarrez l’iPhone puis ouvrez Ryu Study depuis l’icône | Les données locales sont présentes si iOS a conservé le stockage de Ryu Study |
 | Mise à jour du cache | Exportez, publiez au même endroit après avoir modifié le titre HTML et incrémenté la version du cache. Ouvrez l’app en ligne, fermez toutes les fenêtres puis rouvrez | Le nouveau titre est visible dans Safari. Le profil, les tâches, les notes et les sessions sont conservés. Le mode avion fonctionne après la mise à jour |
 | Migration IndexedDB | Sur une origine de test, installez une version de la base avec `VERSION = 1`, créez des données. Publiez la version livrée au même endroit et rouvrez après activation du nouveau cache | La base passe à la version 2, les nouveaux index existent, toutes les données restent accessibles |
 | Accessibilité et petit écran | Testez un écran étroit, le clavier ouvert, VoiceOver et la préférence Réduire les animations. Parcourez les formulaires et utilisez Retour | Pas de défilement horizontal ni zoom forcé des champs. Les commandes sont nommées. Les champs restent atteignables au clavier |

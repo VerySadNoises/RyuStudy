@@ -174,7 +174,7 @@ function submitAssignment(ctx,a){
       if(progress(live)!==100) throw new Error('Complete the word target and all required obligations first.');
       return {...live,submittedAt:live.submittedAt || nowISO()};
     });
-    openDialog('Assignment complete!',close=>h('div',{class:'celebration stack'},cat('celebrate'),muted('Well done. You’ve finished '+a.title+'.'),
+    openDialog('Assignment complete!',close=>h('div',{class:'celebration stack'},h('img',{class:'cat cat-celebrate',src:'./assets/IMG_6690.PNG',alt:'',width:300,height:300}),muted('Well done. You’ve finished '+a.title+'.'),
       group(button('Keep here',close,'secondary'),button('Archive',async()=>{
         try { await setAssignment(ctx,a.id,live=>({...live,archivedAt:nowISO()})); close(); ctx.go('assignments/archived'); }
         catch {}

@@ -28,7 +28,7 @@ export function openDatabase(onVersionChange) {
         tx.objectStore('sessions').createIndex('date','date');
       }
     };
-    request.onblocked = () => reject(new Error('Close other Chapitre windows, then reload to open your storage.'));
+    request.onblocked = () => reject(new Error('Close other Ryu Study windows, then reload to open your storage.'));
     request.onerror = () => reject(request.error);
     request.onsuccess = () => {
       database = request.result;

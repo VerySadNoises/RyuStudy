@@ -136,7 +136,7 @@ test('service worker precaches every runtime asset and serves the shell without 
   assert.equal(claimed,true);
   assert.deepEqual(deleted,['chapitre-shell-old']);
   listeners.fetch({request:{url:scope,method:'GET',mode:'navigate'},respondWith:p=>{pending=p;}});
-  assert.match((await pending).toString(),/Chapitre/);
+  assert.match((await pending).toString(),/Ryu Study/);
   let unrelated=false;
   listeners.fetch({request:{url:scope+'personal.json',method:'GET',mode:'cors'},respondWith:()=>{unrelated=true;}});
   assert.equal(unrelated,false);

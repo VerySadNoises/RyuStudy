@@ -54,7 +54,7 @@ async function exportBackup(ctx){
     data.settings[0].lastExport=stamp;
     const bytes=encode(data);
     if(new Blob([bytes]).size>BACKUP_LIMIT) throw new Error('This backup exceeds the 25 MB import limit.');
-    file=new File([bytes],'chapitre-backup-'+stamp.slice(0,10)+'.json',{type:'application/json'});
+    file=new File([bytes],'ryu-study-backup-'+stamp.slice(0,10)+'.json',{type:'application/json'});
   }catch(error){ctx.error(error); return;}
   const mark=()=>ctx.write(tx=>{tx.profile.lastExport=stamp;});
   openDialog('Export backup',(close,showError)=>{
@@ -124,7 +124,7 @@ export function importBackup(ctx){
         apply.disabled=false;
       }catch(error){ if(token===attempt) summary.textContent='Invalid backup. '+error.message; }
     });
-    return h('div',{class:'stack'},field('Chapitre JSON backup',picker),summary,group(button('Cancel',close,'quiet'),apply));
+    return h('div',{class:'stack'},field('Ryu Study JSON backup',picker),summary,group(button('Cancel',close,'quiet'),apply));
   });
 }
 export function settings(ctx){
@@ -145,7 +145,7 @@ export function settings(ctx){
     h('span',{class:'row-label'},row.name),
     button('Edit',()=>editLabel(ctx,table,row),'quiet'),
     button('Delete',()=>deleteLabel(ctx,table,row),'quiet')));
-  return h('div',{class:'stack'},heading('Settings','Make Chapitre feel like your workspace.',link('History','history','secondary','chart')),
+  return h('div',{class:'stack'},heading('Settings','Make Ryu Study feel like your workspace.',link('History','history','secondary','chart')),
     h('div',{class:'detail-grid'},
       panel(subheading('Profile'),settingsForm('Save name',field('Your name',name),()=>ctx.write(tx=>{tx.profile.username=clean(name.value,60);}))),
       panel(subheading('Appearance'),h('div',{class:'theme-grid'},THEMES.map(theme=>
@@ -168,6 +168,6 @@ export function settings(ctx){
         muted(p.lastExport?'Last export · '+new Date(p.lastExport).toLocaleString():'No backup exported yet.'),
         muted('iOS can remove local data in some circumstances. Keep a JSON copy in Files or iCloud Drive.'),
         group(button('Export JSON',()=>exportBackup(ctx),'primary'),button('Import JSON',()=>importBackup(ctx),'secondary')),
-        button('Reset application',()=>confirmAction('Reset Chapitre?','Erase the local profile, assignments, sessions, goals, tasks and notes? This cannot be undone without a backup.',
+        button('Reset application',()=>confirmAction('Reset Ryu Study?','Erase the local profile, assignments, sessions, goals, tasks and notes? This cannot be undone without a backup.',
           'Erase all local data',async()=>{await ctx.replace(reset);ctx.go('home');ctx.toast('Workspace reset.');},true),'danger'))));
 }

@@ -1,10 +1,10 @@
 /* Bump the cache suffix for every release that changes the offline shell. */
 const PREFIX='chapitre-shell-';
 importScripts('./font-assets.js');
-const CACHE=PREFIX+'v6-'+FONT_VERSION;
+const CACHE=PREFIX+'v7-'+FONT_VERSION;
 const SCOPE=self.registration.scope;
 const FILES=[
-  './','./index.html','./styles.css','./fonts.css','./font-assets.js',...FONT_ASSETS,'./manifest.webmanifest','./assets/cat.svg',
+  './','./index.html','./styles.css','./fonts.css','./font-assets.js',...FONT_ASSETS,'./manifest.webmanifest','./assets/sticker_F8670FCF-40D6-44A5-9883-C5CF96638AA5.png','./assets/sticker_3B8CC490-3F52-429C-AD72-88A969315642.gif','./assets/sticker_2BADD146-C5B8-4B32-8483-923837818A80.gif','./assets/sticker_BB8F344E-6527-42CB-BFD4-B6566750D307.gif',
   './assets/IMG_6566.GIF','./assets/IMG_6567.GIF','./assets/IMG_6575.GIF','./assets/IMG_6569.GIF',
   './assets/IMG_6690.PNG','./assets/sound/EndingBell.mp3','./js/media.js',
   './assets/icon-192-logo-6690.png','./assets/icon-512-logo-6690.png','./assets/maskable-512-logo-6690.png',

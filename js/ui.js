@@ -59,7 +59,7 @@ export function select(choices,value,attrs={}) {
 }
 export const subheading = (title,action) => h('div',{class:'section-head'},h('h2',{},title),action);
 export const heading = (title,body,actions) => h('div',{class:'page-head'},h('div',{},h('h1',{},title),body && muted(body)),actions);
-export const cat = (state='idle') => h('img',{class:'cat cat-'+state,src:'./assets/cat.svg',alt:'',width:360,height:250});
+export const cat = (state='idle') => h('img',{class:'cat cat-'+state,src:'./assets/sticker_F8670FCF-40D6-44A5-9883-C5CF96638AA5.png',alt:'',width:300,height:300});
 
 export function openDialog(title,build,which='dialog') {
   const dialog = document.getElementById(which);

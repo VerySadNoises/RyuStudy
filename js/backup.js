@@ -3,7 +3,7 @@ import {STORES} from './db.js';
 import {THEMES,GOAL_MAX,nowISO} from './model.js';
 
 export const BACKUP_LIMIT = 25 * 1024 * 1024;
-export const encode = data => JSON.stringify({format:'chapitre-backup',version:1,exportedAt:nowISO(),data},null,2);
+export const encode = data => JSON.stringify({format:'ryu-study-backup',version:1,exportedAt:nowISO(),data},null,2);
 const object = v => v !== null && typeof v === 'object' && !Array.isArray(v);
 const str = (v,max,min=0) => typeof v === 'string' && v.length >= min && v.length<=max && (!min || !!v.trim());
 const id = v => str(v,100,1) && /^[a-z0-9:_-]+$/i.test(v);
@@ -54,8 +54,8 @@ const schemas = {
 
 export function decode(source) {
   const envelope = JSON.parse(source);
-  if (!object(envelope) || envelope.format!=='chapitre-backup' || envelope.version!==1 || !time(envelope.exportedAt) || !object(envelope.data)) {
-    throw new Error('This file is not a supported Chapitre backup.');
+  if (!object(envelope) || !['ryu-study-backup','chapitre-backup'].includes(envelope.format) || envelope.version!==1 || !time(envelope.exportedAt) || !object(envelope.data)) {
+    throw new Error('This file is not a supported Ryu Study backup.');
   }
   const data = {};
   for (const name of STORES) {

@@ -39,7 +39,7 @@ if(android){
       const result=await prompt.userChoice;
       if(result.outcome==='dismissed') showStatus('You can install later from the browser menu.');
     }catch{
-      showStatus('Use the browser menu to install Chapitre.');
+      showStatus('Use the browser menu to install Ryu Study.');
     }finally{
       install.disabled=false;
       update();

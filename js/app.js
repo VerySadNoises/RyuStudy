@@ -149,7 +149,7 @@ function welcome(){
   });
   return h('section',{class:'welcome panel'},h('div',{},h('span',{class:'eyebrow'},'YOUR PERSONAL STUDY STUDIO'),
     h('h1',{},'Welcome!'),muted('A cosy place to plan your assignments, write, and find your focus.'),form,
-    button('Restore a backup',()=>importBackup(ctx),'quiet')),h('div',{class:'welcome-art'},cat()));
+    button('Restore a backup',()=>importBackup(ctx),'quiet')),h('div',{class:'welcome-art'},matchMedia('(prefers-reduced-motion: reduce)').matches ? cat() : h('img',{class:'cat',src:'./assets/sticker_3B8CC490-3F52-429C-AD72-88A969315642.gif',alt:'',width:300,height:300})));
 }
 
 function render(){
@@ -249,7 +249,7 @@ async function offline(){
 }
 async function start(){
   try {
-    await db.openDatabase(()=>ctx.error(new Error('The storage format changed. Reload Chapitre.')));
+    await db.openDatabase(()=>ctx.error(new Error('The storage format changed. Reload Ryu Study.')));
     await ctx.refresh();
     if(!location.hash) historyReplace();
     render();
