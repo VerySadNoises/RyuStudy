@@ -76,9 +76,8 @@ export function openDialog(title,build,which='dialog') {
 
 export function modalForm(title,build,save,label='Save') {
   return openDialog(title,(close,showError)=>{
-    const form = h('form',{class:'stack'});
     const submit = h('button',{type:'submit',class:'button primary'},label);
-    form.append(build(),group(button('Cancel',close,'quiet'),submit));
+    const form = h('form',{class:'stack'},build(),group(button('Cancel',close,'quiet'),submit));
     form.addEventListener('submit',async event=>{
       event.preventDefault();
       submit.disabled=true;

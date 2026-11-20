@@ -99,7 +99,7 @@ function applyTheme(){
 }
 function activeNav(route){
   const key=route==='assignment'?'assignments':route;
-  nav.replaceChildren(h('span',{class:'nav-caption'},'WORKSPACE'),pages.map(([id,label,symbol])=>
+  nav.replaceChildren(h('span',{class:'nav-caption'},'WORKSPACE'),...pages.map(([id,label,symbol])=>
     h('a',{class:'nav-link '+(id==='history'?'desktop-only':''),href:'#'+id,'aria-current':key===id?'page':null},icon(symbol),h('span',{},label))));
 }
 function welcome(){
@@ -171,13 +171,27 @@ addEventListener('hashchange',()=>{
   main.focus({preventScroll:true});
 });
 document.querySelector('.skip').addEventListener('click',event=>{event.preventDefault(); main.focus();});
+function canSyncExternal(){
+  return current && !document.hidden && !document.querySelector('dialog[open]')
+    && !(main.contains(document.activeElement) && document.activeElement.matches('input,textarea,select'));
+}
 function syncExternal(){
-  if(document.querySelector('dialog[open]') || main.contains(document.activeElement) && document.activeElement.matches('input,textarea,select')){
+  if(!canSyncExternal()){
     externalPending=true;
     return;
   }
   externalPending=false;
-  enqueue(async()=>{ await ctx.refresh(); render(); }).catch(ctx.error);
+  enqueue(async()=>{
+    // Returning to the app should leave buttons in place when storage is unchanged.
+    if(await db.savedAt() === ctx.profile.lastSaved) return;
+    const latest=await db.snapshot();
+    if(!canSyncExternal()){
+      externalPending=true;
+      return;
+    }
+    current=latest;
+    render();
+  }).catch(ctx.error);
 }
 document.addEventListener('focusout',()=>{ if(externalPending) setTimeout(syncExternal,0); });
 for(const dialog of document.querySelectorAll('dialog')) dialog.addEventListener('close',()=>{ if(externalPending) syncExternal(); });

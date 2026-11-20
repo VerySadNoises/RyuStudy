@@ -66,6 +66,13 @@ function transaction(names,mode,work) {
   });
 }
 
+export function savedAt() {
+  return transaction(['settings'],'readonly',(store,guard,finish) => {
+    const request = store('settings').get('profile');
+    request.onsuccess = guard(() => finish(request.result?.lastSaved));
+  });
+}
+
 export function snapshot() {
   return transaction(STORES,'readonly',(store,guard,finish) => {
     const data = {};
