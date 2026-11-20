@@ -17,8 +17,8 @@ export function calendar(ctx,sessions){
   const today=new Date();
   const sunday=addDays(today,(7-today.getDay())%7);
   const first=addDays(sunday,-55);
-  const columns=Array.from({length:8},(_,i)=>addDays(first,i*7));
-  const cells=columns.flatMap(start=>Array.from({length:7},(_,j)=>{
+  const weeks=Array.from({length:8},(_,i)=>addDays(first,i*7));
+  const cells=weeks.flatMap(start=>Array.from({length:7},(_,j)=>{
     const d=addDays(start,j);
     const day=localDate(d);
     if(day>localDate(today)) return h('span',{class:'day future','aria-hidden':'true'});
@@ -31,7 +31,7 @@ export function calendar(ctx,sessions){
   }));
   return h('div',{class:'calendar'},
     h('div',{class:'calendar-main'},
-      h('div',{class:'week-labels','aria-hidden':'true'},['M','T','W','T','F','S','S'].map(x=>h('span',{},x))),
+      h('div',{class:'week-labels','aria-hidden':'true'},['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(x=>h('span',{},x))),
       h('div',{class:'day-grid','aria-label':'Eight-week activity calendar'},cells)),
     h('div',{class:'calendar-caption'},h('span',{},fullDate(first).split(', ').at(-1)),h('span',{},'Today')),
     h('div',{class:'legend'},h('span',{},h('i',{}),'No activity'),h('span',{},h('i',{class:'filled'}),'Logged work')));
