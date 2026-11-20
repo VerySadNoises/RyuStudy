@@ -1,13 +1,13 @@
 /* Bump the cache suffix for every release that changes the offline shell. */
 const PREFIX='chapitre-shell-';
 importScripts('./font-assets.js');
-const CACHE=PREFIX+'v3-'+FONT_VERSION;
+const CACHE=PREFIX+'v4-'+FONT_VERSION;
 const SCOPE=self.registration.scope;
 const FILES=[
   './','./index.html','./styles.css','./fonts.css','./font-assets.js',...FONT_ASSETS,'./manifest.webmanifest','./assets/cat.svg',
   './assets/apple-touch-icon.png','./assets/icon-192.png','./assets/icon-512.png','./assets/maskable-512.png',
 
-  './js/app.js','./js/model.js','./js/db.js','./js/ui.js','./js/assignments.js','./js/pomodoro.js',
+  './js/install-android.js','./js/app.js','./js/model.js','./js/db.js','./js/ui.js','./js/assignments.js','./js/pomodoro.js',
   './js/timer.js','./js/visuals.js','./js/settings.js','./js/backup.js'
 ];
 const urls=new Set(FILES.map(path=>new URL(path,SCOPE).href));
