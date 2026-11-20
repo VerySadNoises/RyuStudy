@@ -143,8 +143,7 @@ export function reviewTimer(ctx,force=false){
     save.disabled=timer.elapsed<1000;
     return h('div',{class:'stack'},focusComplete(timer) && h('div',{class:'celebration stack'},pomodoroArt(timer,true),
       button('Play bell',async()=>{
-        prepareBell();
-        try{await playBell();}catch{showError('The bell could not be played.');}
+        try{await playBell();}catch{showError('Could not play the bell. Check your media volume and tap Play bell again.');}
       },'secondary')),tag(duration(timer.elapsed)+' of focus'),muted('Would you like to save this session?'),
       field('New words written during this session',words),
       muted('These words are added to the assignment total once. If you already adjusted the total, enter 0.'),

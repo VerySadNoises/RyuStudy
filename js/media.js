@@ -2,37 +2,42 @@ import {h,cat} from './ui.js';
 
 const END_GIFS=['IMG_6569.GIF', 'sticker_2BADD146-C5B8-4B32-8483-923837818A80.gif', 'sticker_BB8F344E-6527-42CB-BFD4-B6566750D307.gif'];
 const BELL='./assets/sound/EndingBell.mp3';
-let audio, recording, announced;
+let player;
+let announced;
+let playAttempt=0;
 
-export function prepareBell(){
-  const Context=window.AudioContext || window.webkitAudioContext;
-  if(!Context) return;
-  try{
-    audio ??= new Context();
-    if(audio.state!=='running') void audio.resume().catch(()=>{});
-    recording ??= fetch(BELL).then(response=>{
-      if(!response.ok) throw new Error('Bell unavailable.');
-      return response.arrayBuffer();
-    }).then(bytes=>audio.decodeAudioData(bytes)).catch(()=>{
-      recording=undefined;
-      return null;
-    });
-  }catch{}
+function bell(){
+  if(!player){
+    player=new Audio(BELL);
+    player.preload='auto';
+  }
+  return player;
 }
 
-export async function playBell(){
-  if(!audio) throw new Error('Sound is unavailable.');
-  if(audio.state!=='running') await audio.resume();
-  const buffer=await recording;
-  if(!buffer) throw new Error('Bell unavailable.');
-  const sound=audio.createBufferSource();
-  sound.buffer=buffer;
-  sound.connect(audio.destination);
-  sound.start();
+// Start playback inside the tap handler to authorize this element on iOS.
+export function prepareBell(){
+  const audio=bell();
+  const attempt=++playAttempt;
+  audio.muted=true;
+  const finish=()=>{
+    if(attempt!==playAttempt) return;
+    audio.pause();
+    if(audio.readyState>0) audio.currentTime=0;
+    audio.muted=false;
+  };
+  void audio.play().then(finish,finish);
+}
+
+export function playBell(){
+  const audio=bell();
+  ++playAttempt;
+  audio.muted=false;
+  if(audio.readyState>0) audio.currentTime=0;
+  return audio.play();
 }
 
 export function announceCompletion(timer){
-  if(!audio || announced===timer.id) return;
+  if(announced===timer.id) return;
   announced=timer.id;
   void playBell().catch(()=>{});
 }
